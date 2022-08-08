@@ -5,6 +5,7 @@ import cgi
 import time
 from datetime import datetime
 
+from block_utility import test_node
 from cache import cache
 from constants import PNT_CONTRACT_ADDRESS, HEADER, EMPTY_STR, NEW_LINE, cfg, DATA_LENGTH
 from interval_detection import find_block_interval
@@ -24,6 +25,13 @@ class Server(BaseHTTPRequestHandler):
         if ctype != 'application/json':
             self.send_response(400)
             self.end_headers()
+            return
+
+        # check url
+        if not test_node(cfg.get_url()):
+            str_out = "Ethereum node " + str(cfg.get_url()) + " is offline"
+            self._set_headers()
+            self.wfile.write(str_out.encode("utf-8"))
             return
 
         # read the message and convert it into a python dictionary
