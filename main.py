@@ -5,8 +5,8 @@ import cgi
 import time
 from datetime import datetime
 
-from cache import add_cache, check_cache
-from constants import PNT_CONTRACT_ADDRESS, HEADER, url, EMPTY_STR, NEW_LINE
+from cache import cache
+from constants import PNT_CONTRACT_ADDRESS, HEADER, EMPTY_STR, NEW_LINE, cfg
 from interval_detection import find_block_interval
 
 
@@ -45,7 +45,7 @@ class Server(BaseHTTPRequestHandler):
                 return
 
         # Check cache
-        cached = check_cache(str(message))
+        cached = cache.check_cache(str(message))
         if cached is not None:
             self._set_headers()
             self.wfile.write(str(cached).encode("utf-8"))
@@ -67,13 +67,12 @@ class Server(BaseHTTPRequestHandler):
         if response:
             rsp_str = EMPTY_STR
             for rsp in response:
-                # response_j = json.loads(''.join(rsp))
-                # data = [response_j, round(time.time())]
-                # add_cache(str(message), data)
                 rsp_str = rsp_str + EMPTY_STR.join(rsp) + NEW_LINE
 
+            # Save to cache
             data = [rsp_str, round(time.time())]
-            add_cache(str(message), data)
+            cache.add_cache(str(message), data)
+
             # send the message back
             self._set_headers()
             self.wfile.write(rsp_str.encode("utf-8"))
@@ -88,7 +87,7 @@ def tr_num_byaddr(addr, start_time, end_time):
     start, end = find_block_interval(start_time, end_time)
     cmd = '{"jsonrpc": "2.0","id": 1,"method": "eth_getLogs","params": [{"fromBlock": "' + hex(
         start) + '","toBlock": "' + hex(end) + '","address": "' + PNT_CONTRACT_ADDRESS + '"}]}'
-    data = json.loads(requests.post(url, data=cmd, headers=HEADER).text)
+    data = json.loads(requests.post(cfg.get_url(), data=cmd, headers=HEADER).text)
     d = data['result']
     readable_start = datetime.fromtimestamp(start_time)
     readable_end = datetime.fromtimestamp(end_time)
@@ -124,7 +123,28 @@ def run(server_class=HTTPServer, handler_class=Server, port=3000):
 if __name__ == "__main__":
     from sys import argv
 
-    if len(argv) == 2:
-        run(port=int(argv[1]))
+    if len(argv) > 0:
+        for i in argv:
+            if i == 'cache-time' or i == 'ct':
+                try:
+                    cfg.set_caching_time(int(argv[argv.index(i) + 1]))
+                    print('Caching time set to: ' + str(cfg.get_caching_time()))
+                except:
+                    print('Missing seconds command after \'time\' in argument list')
+            elif i == 'port' or i == 'p':
+                try:
+                    cfg.set_port(int(argv[argv.index(i) + 1]))
+                    print('Port set to: ' + str(cfg.get_port()))
+                except:
+                    print('missing port number after \'port\' in argument list')
+                    raise
+            elif i == 'url':
+                try:
+                    cfg.set_url(argv[argv.index(i) + 1])
+                    print('URL set to: ' + str(cfg.get_url()))
+                except:
+                    print('missing port number after \'port\' in argument list')
+                    raise
+        run(port=cfg.get_port())
     else:
-        run()
+        run(port=cfg.get_port())

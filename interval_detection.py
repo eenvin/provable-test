@@ -3,13 +3,13 @@ import json
 import requests
 
 from block_utility import return_block_time_by_num
-from constants import url, HEADER, AVERAGE_ETHEREUM_CTIME
+from constants import HEADER, AVERAGE_ETHEREUM_CTIME, cfg
 
 
 def find_block_interval(start_time, end_time):
     # get latest block number and timestamp
     cmd = '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest",false],"id":1}'
-    data = json.loads(requests.post(url, data=cmd, headers=HEADER).text)
+    data = json.loads(requests.post(cfg.get_url(), data=cmd, headers=HEADER).text)
     l_num = int(data['result']['number'], 16)
     l_time = int(data['result']['timestamp'], 16)
 
