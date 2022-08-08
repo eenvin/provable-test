@@ -4,7 +4,12 @@ This code provides a list of PNT transactions for a specific address inside a ti
 Results can be double checked at [Ethersan.io](https://etherscan.io/token/0x89ab32156e46f46d02ade3fecbe5fc4243b9aaed)
 
 ## Example
-Request:
+Request from Linux:
+```
+curl -X POST -H 'content-type: application/json' -d '{"address":"0xb47ce3a95c5062d9f5894862dcc44df7a660dfba", "from":"1659880849", "to":"1659884449"}' http://localhost:3000/transfers
+```
+
+Request from Windows (it is needed to escape " symbol):
 ```
 curl -X POST -H 'content-type: application/json' -d '{\"address\":\"0xb47ce3a95c5062d9f5894862dcc44df7a660dfba\", \"from\":\"1659880849\", \"to\":\"1659884449\"}' http://localhost:3000/transfers
 ```
