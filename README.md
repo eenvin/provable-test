@@ -1,6 +1,7 @@
 # provable-test
 
-This code provides a list of PNT transactions for a specific address inside a time interval.
+This code provides a list of PNT transactions for a specific address inside a time interval. <br />
+Results can be double checked at [Ethersan.io](https://etherscan.io/token/0x89ab32156e46f46d02ade3fecbe5fc4243b9aaed)
 
 ## Example
 Request:
@@ -24,7 +25,9 @@ In order to start the server:
 python3 main.py
 ```
 
-This command starts a server listening on port 3000. The cache on the server will retain data for 30 seconds and all the queries to the Ethereum blockchain will be sent to https://aged-wispy-sun.quiknode.pro/a9c866c62d28d63303de21fd44e95f747f725857
+This command starts a server listening on port 3000. <br />
+The cache on the server will retain data for 30 seconds. <br />
+The queries to the Ethereum blockchain will be sent to node https://aged-wispy-sun.quiknode.pro/a9c866c62d28d63303de21fd44e95f747f725857
 
 ## Server configuration
 Use following paramaters to configure the server:
