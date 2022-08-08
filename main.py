@@ -135,7 +135,7 @@ if __name__ == "__main__":
                 except:
                     print('missing port number after \'port\' in argument list')
                     raise
-            elif i == 'url':
+            elif i == 'node-url' or 'nu':
                 try:
                     cfg.set_url(argv[argv.index(i) + 1])
                     print('URL set to: ' + str(cfg.get_url()))
