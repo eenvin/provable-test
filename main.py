@@ -6,7 +6,7 @@ import time
 from datetime import datetime
 
 from cache import cache
-from constants import PNT_CONTRACT_ADDRESS, HEADER, EMPTY_STR, NEW_LINE, cfg
+from constants import PNT_CONTRACT_ADDRESS, HEADER, EMPTY_STR, NEW_LINE, cfg, DATA_LENGTH
 from interval_detection import find_block_interval
 
 
@@ -15,9 +15,6 @@ class Server(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-
-    # def do_HEAD(self):
-    #     self._set_headers()
 
     # POST echoes the message adding a JSON field
     def do_POST(self):
@@ -104,7 +101,7 @@ def tr_num_byaddr(addr, start_time, end_time):
             receiver = 0
         if sender == addr or receiver == addr:
             txid = din['transactionHash']
-            amount = str(int(din['data'][:66], 16))
+            amount = str(int(din['data'][:DATA_LENGTH], 16))
             result = '{"txid":"' + txid + '","sender":"' + sender + '","receiver":"' + receiver + '","amount":"' \
                      + amount + '"}'
             print('Found transaction: ' + result)
@@ -143,7 +140,7 @@ if __name__ == "__main__":
                     cfg.set_url(argv[argv.index(i) + 1])
                     print('URL set to: ' + str(cfg.get_url()))
                 except:
-                    print('missing port number after \'port\' in argument list')
+                    print('missing port number after \'url\' in argument list')
                     raise
         run(port=cfg.get_port())
     else:

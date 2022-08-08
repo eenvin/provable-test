@@ -3,6 +3,7 @@ AVERAGE_ETHEREUM_CTIME = 13
 EMPTY_STR = ''
 NEW_LINE = '\n'
 HEADER = {'Content-type': 'application/json'}
+DATA_LENGTH = 66
 
 
 class Config:
