@@ -1,7 +1,7 @@
 # provable-test
 
 This code provides a list of PNT transactions for a specific address inside a time interval. <br />
-Results can be double checked at [Ethersan.io](https://etherscan.io/token/0x89ab32156e46f46d02ade3fecbe5fc4243b9aaed)
+Results can be double checked using [Ethersan.io](https://etherscan.io/token/0x89ab32156e46f46d02ade3fecbe5fc4243b9aaed)
 
 ## Example
 Request from Linux:
