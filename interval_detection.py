@@ -41,7 +41,7 @@ def find_block_interval(start_time, end_time):
             while start_time - t > 0:
                 find_blk = find_blk + 1
                 t = return_block_time_by_num(find_blk)
-            start = find_blk + 1
+            start = find_blk - 1
         else:
             while start_time - t <= 0:
                 find_blk = find_blk - 1
@@ -77,12 +77,12 @@ def find_block_interval(start_time, end_time):
             while end_time - t > 0:
                 find_blk = find_blk + 1
                 t = return_block_time_by_num(find_blk)
-            end = find_blk + 1
+            end = find_blk
         else:
             while end_time - t <= 0:
                 find_blk = find_blk - 1
                 t = return_block_time_by_num(find_blk)
-            end = find_blk
+            end = find_blk + 1
     print('End block found: ' + str(end))
 
     return start, end
