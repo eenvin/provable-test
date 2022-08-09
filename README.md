@@ -47,3 +47,6 @@ It is possible to change the port, the Ethereum node url or the cache retention 
 ```
 python3 main.py p 3002 ct 100 nu 'https://wild-divinemoon.quiknode.pro/9a2fc33e00169e941e01396b0b5a31cf8bc3ab16/'
 ```
+
+## Known limitations
+Cache not valid data are retained inside memory unless a request for that data is received. This could lead to very big chunck of cache used for not valid data if a lot of non repetitive commands are received.
